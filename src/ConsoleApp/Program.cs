@@ -64,7 +64,19 @@ namespace ConsoleApp
             #endregion
 
             #region BinaryTree
-            
+
+            //BinaryTreeNode root = new(1,
+            //    new BinaryTreeNode(2,
+            //        new BinaryTreeNode(4),
+            //        new BinaryTreeNode(5)),
+            //    new BinaryTreeNode(3));
+
+            //BinaryTree.Inorder(root);
+            //Console.WriteLine();
+            //BinaryTree.Preorder(root);
+            //Console.WriteLine();
+            //BinaryTree.Postorder(root);
+            //Console.WriteLine();
 
             #endregion
 

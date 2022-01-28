@@ -14,7 +14,7 @@ linear structure which follows Last In First Out (LIFO) order
 automatically grows when we try to make an insertion and there is no more space left for the new item
 
 ## Binary tree
-TODO - traversal (preorder, inorder, postorder)
+each node has at most two children
 
 ## Graph
 TODO - add edge, add vertex

@@ -46,7 +46,7 @@ namespace ConsoleApp
             #endregion
 
             #region DynamicArray
-            //DynamicArray a = new();
+            //DynamicArray<int> a = new();
             //a.Add(8);
             //a.Add(8);
             //a.Add(8);

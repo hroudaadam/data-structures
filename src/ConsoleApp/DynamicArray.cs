@@ -1,19 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ConsoleApp
+﻿namespace ConsoleApp
 {
-    public class DynamicArray
+    public class DynamicArray<T>
     {
-        public int Count { get; set; } = 0;
+        public int Count => _lastIndex + 1;
 
         private int _lastIndex = -1;
-        private int[] _array = new int[1];
+        private T[] _array = new T[1];
 
-        public int this[int i]
+        public T this[int i]
         {
             get
             {
@@ -27,17 +21,12 @@ namespace ConsoleApp
             }
         }
 
-        public void Add(int value)
+        public void Add(T value)
         {
-            // next index is out of range -> resize array
-            if (_lastIndex >= (_array.Length - 1))
-            {
-                ExpandArray(_array.Length * 2);
-            }
+            TryExpandArray();
 
             _array[_lastIndex + 1] = value;
             _lastIndex++;
-            Count++;
         }
 
         public void RemoveAt(int index)
@@ -46,31 +35,25 @@ namespace ConsoleApp
 
             for (int i = index; i <= _lastIndex; i++)
             {
-                if (i < _array.Length - 1)
+                if (i < _lastIndex)
                 {
                     _array[i] = _array[i + 1];
                 }
                 else
                 {
-
-                    _array[i] = 0;
+                    _array[i] = default;
                 }
             }
 
-            if (_lastIndex < _array.Length/2)
-            {
-                ShrinkArray(_array.Length / 2);
-            }
-
-            Count--;
+            TryShrinkArray();
             _lastIndex--;
         }
 
-        public int IndexOf(int value)
+        public int IndexOf(T value)
         {
             for (int i = 0; i < _lastIndex; i++)
             {
-                if (_array[i] == value)
+                if (_array[i].Equals(value))
                 {
                     return i;
                 }
@@ -81,18 +64,12 @@ namespace ConsoleApp
         public void Clear()
         {
             _lastIndex = -1;
-            _array = new int[1];
+            _array = new T[1];
         }
 
         public override string ToString()
         {
-            int[] values = new int[_lastIndex + 1];
-            for (int i = 0; i < values.Length; i++)
-            {
-                values[i] = _array[i];
-            }
-
-            return string.Join(", ", values);
+            return string.Join(", ", _array[..(_lastIndex + 1)]);
         }
 
         private void CheckOutOfRange(int index)
@@ -103,21 +80,24 @@ namespace ConsoleApp
             }
         }
 
-        private void ShrinkArray(int length)
+        private void TryShrinkArray()
         {
-            int[] tmp = new int[length];
+            if (_lastIndex >= _array.Length / 2) return;
+
+            T[] tmp = new T[_array.Length / 2];
             for (int i = 0; i < tmp.Length; i++)
             {
                 tmp[i] = _array[i];
             }
-
             _array = tmp;
         }
 
-        private void ExpandArray(int length)
+        private void TryExpandArray()
         {
-            int[] tmp = _array;
-            _array = new int[length];
+            if (_lastIndex < (_array.Length - 1)) return;
+
+            T[] tmp = _array;
+            _array = new T[_array.Length * 2];
             tmp.CopyTo(_array, 0);
         }
     }
